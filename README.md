@@ -58,3 +58,66 @@ Now we move to the next stage of building our web tier.
 
 ### **Stage 2: Create the Web Tier**
 Go to the EC2 dashboard, then navigate to “Auto Scaling Groups” on the left-hand menu and click “Create Auto Scaling Group.” Provide a name for your ASG and choose “Create a launch template.” This template will contain the necessary configurations for launching EC2 instances that will be publicly accessible.
+![alt text](Capture7.PNG)
+
+When the launch template window opens, start by naming the template. Then, select the “Amazon Linux 2 AMI” and choose the “t2.micro” instance type.
+![alt text](Capture8.PNG)
+![alt text](Capture9.PNG)
+![alt text](Capture10.PNG)
+
+choose an existing key pair or create a new a key pair, then create a new Security Group. Name your security group and make sure to select your previously created VPC.
+![alt text](Capture11.PNG)
+Configure your inbound rules to allow SSH, HTTP, and HTTPS access to our public-facing EC2 Instances from anywhere.
+![alt text](Capture12.PNG)
+Other options will be left as default, go down to “Advanced details”. copy and paste the following script in the “User data” field, then click “Create launch template”.
+
+#!/bin/bash
+
+#Update all yum package repositories
+yum update -y
+
+#Install Apache Web Server
+yum install -y httpd.x86_64
+
+#Start and Enable Apache Web Server
+systemctl start httpd.service
+systemctl enable httpd.service
+
+#Adds our custom webpage html code to "index.html" file.
+echo "<html><body><h1>Welcome to my project!</h1></body><html>" > /var/www/html/index.html
+
+After creating the Launch Template, head back to the ASG window, select the launch template just created, then click “Next”.
+![alt text](Capture13.PNG)
+For the “Network” settings, choose your VPC, select the 2 public Availability Zones in your network, and then click “Next”.
+![alt text](Capture14.PNG)
+We’ll set up a load balancer to distribute incoming Web Tier traffic across our EC2 instances, enhancing availability.
+
+Choose “Attach to a new load balancer” and select “Application Load Balancer.” Give your load balancer a name, then select “Internet-facing.”
+![alt text](Capture15.PNG)
+
+Make sure your VPC and both public subnets are selected.
+![alt text](Capture16.PNG)
+
+For “Listeners and routing”, select “Create a target group”, then select our new load balancer.
+![alt text](Capture17.PNG)
+
+“Enable group metrics collection within CloudWatch” to allow the collection of information of our ASG, then click “Next”.
+
+For the “Configure group size and scaling policies” section, choose 2 for desired capacity, 2 for minimum capacity, and 5 for maximum capacity.
+
+For Scaling policies, choose “Target scaling policy”, ensure the Metric type is “Average CPU utilization”, and set the Target value to 50. Click “Next” to continue.
+![alt text](Capture18.PNG)
+
+Continue clicking “Next” until you reach the “Review” page. Scroll down and click “Create Auto Scaling Group”.
+
+Your Web Tier’s Auto Scaling Group will now be created. Wait a few minutes for it to initialize and launch the new EC2 Instances.
+
+To verify:
+
+Navigate to the EC2 Instances section in the EC2 dashboard.
+Confirm that two EC2 Instances have been launched. Once their state changes to “Running”, copy the public IPv4 address of one instance.
+Paste the address into your browser.
+You should see your website displayed successfully.
+![alt text](Capture19.PNG)
+
+Web Tier has been successfully created.
