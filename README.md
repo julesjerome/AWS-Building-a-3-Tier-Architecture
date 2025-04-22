@@ -121,3 +121,89 @@ You should see your website displayed successfully.
 ![alt text](Capture19.PNG)
 
 Web Tier has been successfully created.
+
+### **Stage 3: Build the Application Tier**
+To construct the Application Tier, follow these steps:
+
+1. Create an Auto Scaling Group (ASG):
+    Set up an ASG to manage the launch and scaling of EC2 instances.
+    Configure the ASG to deploy instances across 2 private subnets for improved availability.
+2. Inbound Traffic Configuration:
+
+    Restrict inbound traffic to only allow access from the Web Tier.
+Note: This setup does not represent a fully functional application tier since no application code is provided to run on the EC2 instances.
+
+To launch EC2 instances in an Auto Scaling Group (ASG):
+
+1. Navigate to ASG Setup: Go to the EC2 dashboard, select “Auto Scaling Groups”, and click “Create Auto Scaling group”.
+2. Create a Launch Template: Name the ASG and create a launch template using the Amazon Linux 2 AMI, t2.micro instance type, and a key pair.
+3. Configure Network Settings: Choose your VPC and create a security group. Set rules to allow SSH access from the Web Tier security group and ICMP — IPv4 to enable pinging EC2s from the Web Tier for connectivity checks.
+This ensures the ASG and its EC2 instances are properly connected and secure.
+![alt text](Capture20.PNG)
+![alt text](Capture21.PNG)
+
+After configuring the Application Tier launch template:
+1. Create the Launch Template: Click “Create launch template” to finalize its setup.
+2. Update the ASG Configuration: Return to the Application Tier ASG configuration and select the newly created launch template.
+This links the launch template to the Application Tier ASG, completing the setup process.
+![alt text](Capture22.PNG)
+
+In the Application Tier ASG configuration:
+Choose your VPC for the ASG.
+Select two private AZs within your network to host the EC2 instances.
+Click “Next” to continue with the configuration.
+![alt text](Capture23.PNG)
+
+To set up an Application Load Balancer (ALB) for the Application Tier:
+
+Select “Attach to a new load balancer” and choose “Application Load Balancer”.
+
+Name the ALB and set it to “Internal” to handle private traffic from the Web Tier and public internet.
+![alt text](Capture24.PNG)
+
+Ensure your VPC and both private subnets are selected. For “listeners and routing” Choose “Create a target group” and link it to the Application Tier Load Balancer.
+![alt text](Capture25.PNG)
+
+1. Enable CloudWatch group metrics collection, then click “Next”.
+2. In Group size and scaling policies, set:
+    Desired capacity: 2
+    Minimum capacity: 2
+    Maximum capacity: 5
+3. Select Target scaling policy with:
+    Metric type: Average CPU utilization
+    Target value: 50
+
+    ![alt text](Capture26.PNG)
+    ![alt text](Capture27.PNG)
+
+Click “Next” to proceed until you arrive at the “Review” page
+
+then click “Create Auto Scaling group”.
+
+Our new Application Tier ASG should be created.
+![alt text](Capture28.PNG)
+
+Wait a few minutes for the capacity to update and the EC2 instances to launch. You should now see 4 EC2 instances:
+
+    2 from the Web Tier
+    2 from the Application Tier
+Each tier is managed by separate ASGs and fronted by an Application Load Balancer.
+![alt text](Capture29.PNG)
+
+To verify connectivity between the tiers:
+
+1. SSH into the Web Tier:
+    Use the public IPv4 address of a Web Tier EC2 instance.
+    Refer to “Step 2: SSH into Amazon EC2 Instance” from the previous guide if needed.
+2. Ping the Application Tier:
+    Obtain the private IPv4 address of an Application Tier EC2 instance in the private subnet.
+    Run the ping command from the Web Tier EC2 instance to test connectivity.
+
+    ping <app_tier_ec2_private_ip_address>
+
+    ![alt text](Capture30.PNG)
+
+Now that we’ve determined we can reach our private IP, let’s ssh into it from our Web Tier EC2.
+
+Go ahead and type exit.
+
