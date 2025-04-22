@@ -3,9 +3,12 @@ Build a 3-tier architecture on AWS by setting up a web layer (EC2 or ALB), an ap
 ### **Introduction**
 When building a cloud-based application, it’s vital to consider three key aspects of the architecture:
 
-**Scalability**: How easily the app can scale up or down without frequent manual intervention.
-**Availability**: The app’s ability to remain operational over long periods and withstand failures in individual components.
-**Security**: Protecting the app from vulnerabilities, managing permissions, and ensuring one compromised part doesn’t affect the whole system.
+### **Scalability**
+How easily the app can scale up or down without frequent manual intervention.
+### **Availability**
+The app’s ability to remain operational over long periods and withstand failures in individual components.
+### **Security**
+Protecting the app from vulnerabilities, managing permissions, and ensuring one compromised part doesn’t affect the whole system.
 These factors ensure the application is robust, efficient, and secure.
 
 By addressing these considerations, you can ensure that your cloud-based application is robust, scalable, and secure, setting a strong foundation for long-term success.
