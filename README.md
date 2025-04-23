@@ -228,3 +228,30 @@ Select Template:
 * Choose “Dev/Test” to enable a Multi-AZ DB Instance.
 * Alternatively, select “Free tier” for a cost-effective option.
 * For Settings set a master password for the admin account.
+![alt text](Capture34.PNG)
+![alt text](Capture35.PNG)
+![alt text](Capture36.PNG)
+
+### *Configure Connectivity:*
+
+* Go to the “Connectivity” section.
+* Select your VPC and DB subnet group (previously created).
+* Ensure “Public access” is set to “No” to restrict access to private connections only (via the Application Tier).
+* Choose “Create new” security group and assign it a name.
+
+![alt text](Capture37.PNG)
+![alt text](Capture38.PNG)
+
+* Scroll down and click “Create Database” to finalize the setup.
+* Select your newly created database.
+* Navigate to the “Connectivity & security” tab.
+* Click on the security group to edit its settings.
+
+![alt text](Capture39.PNG)
+
+* In the security group, click “Edit inbound rules” (bottom right).
+* Change the source of the inbound rule to the security group of your Application Tier.
+![alt text](Capture40.PNG)
+![alt text](Capture41.PNG)
+
+We’ve successfully built the Database Tier!
