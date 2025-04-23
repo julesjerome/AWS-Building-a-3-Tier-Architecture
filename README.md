@@ -207,3 +207,24 @@ Now that we’ve determined we can reach our private IP, let’s ssh into it fro
 
 Go ahead and type exit.
 
+### **Stage 4: Build the Database Tier**
+1. Create a DB Subnet Group:
+    Navigate to the Amazon RDS dashboard, click “Subnet groups”, and select “Create DB subnet group”.
+    Name and describe the group, choose your VPC, and select two AZs with the remaining private subnets (unused by other tiers).
+2. Enable Multi-AZ Deployment:
+    Choose a Multi-AZ DB Instance deployment for high availability and data redundancy.
+Click “Create” to finalize the setup.
+![alt text](Capture31.PNG)
+![alt text](Capture32.PNG)
+
+* Navigate to the RDS Dashboard in AWS.
+* Click on “Databases” from the left-hand menu.
+* Click the “Create database” button.
+* Select “Standard create” for more manual control over settings.
+* Pick MySQL as the database engine.
+![alt text](Capture33.PNG)
+
+Select Template:
+* Choose “Dev/Test” to enable a Multi-AZ DB Instance.
+* Alternatively, select “Free tier” for a cost-effective option.
+* For Settings set a master password for the admin account.
