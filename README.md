@@ -62,7 +62,9 @@ Go to the EC2 dashboard, then navigate to “Auto Scaling Groups” on the left-
 
 When the launch template window opens, start by naming the template. Then, select the “Amazon Linux 2 AMI” and choose the “t2.micro” instance type.
 ![alt text](Capture8.PNG)
+
 ![alt text](Capture9.PNG)
+
 ![alt text](Capture10.PNG)
 
 choose an existing key pair or create a new a key pair, then create a new Security Group. Name your security group and make sure to select your previously created VPC.
@@ -174,6 +176,7 @@ Ensure your VPC and both private subnets are selected. For “listeners and rout
     Target value: 50
 
     ![alt text](Capture26.PNG)
+
     ![alt text](Capture27.PNG)
 
 Click “Next” to proceed until you arrive at the “Review” page
@@ -215,6 +218,7 @@ Go ahead and type exit.
     Choose a Multi-AZ DB Instance deployment for high availability and data redundancy.
 Click “Create” to finalize the setup.
 ![alt text](Capture31.PNG)
+
 ![alt text](Capture32.PNG)
 
 * Navigate to the RDS Dashboard in AWS.
@@ -229,7 +233,9 @@ Select Template:
 * Alternatively, select “Free tier” for a cost-effective option.
 * For Settings set a master password for the admin account.
 ![alt text](Capture34.PNG)
+
 ![alt text](Capture35.PNG)
+
 ![alt text](Capture36.PNG)
 
 ### *Configure Connectivity:*
@@ -240,6 +246,7 @@ Select Template:
 * Choose “Create new” security group and assign it a name.
 
 ![alt text](Capture37.PNG)
+
 ![alt text](Capture38.PNG)
 
 * Scroll down and click “Create Database” to finalize the setup.
@@ -252,6 +259,19 @@ Select Template:
 * In the security group, click “Edit inbound rules” (bottom right).
 * Change the source of the inbound rule to the security group of your Application Tier.
 ![alt text](Capture40.PNG)
+
 ![alt text](Capture41.PNG)
 
 We’ve successfully built the Database Tier!
+
+### **Stage 5: Create a Bastion host**
+
+A Bastion Host is a secure gateway that provides remote access to a private network from the internet. To create one, navigate to the EC2 dashboard and launch a new instance. Name the instance, select Amazon Linux AMI, choose a t2.micro instance type, and assign a key pair for SSH access. In the network settings, select your VPC, a public subnet, and enable auto-assign public IP. Create a new security group that allows SSH access only from your IP address. Finally, launch the instance to complete the setup.
+
+![alt text](Capture42.PNG)
+
+![alt text](Capture43.PNG)
+
+![alt text](Capture44.PNG)
+
+![alt text](Capture45.PNG)
