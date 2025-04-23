@@ -275,3 +275,16 @@ A Bastion Host is a secure gateway that provides remote access to a private netw
 ![alt text](Capture44.PNG)
 
 ![alt text](Capture45.PNG)
+
+Update the security group rules for the EC2 Instances in the Application Tier’s private subnets. Allow SSH access from the Bastion Host security group and remove the rule permitting SSH from the Web Tier security group.
+
+You can now SSH into the Bastion Host using its public IPv4 address. Run the SSH command with the key pair you specified during the setup, replacing <Public-IP> with the Bastion Host's public IPv4 address:
+
+ssh -A ec2-user@<bastion_host_public_ipv4_address>
+
+After connecting to your Bastion Host, use the following command to SSH into an EC2 instance in the Application Tier’s private subnet. Replace <Private-IP> with the private IPv4 address of the target EC2 instance:
+
+ssh -A ec2-user@<application_tier_ec2_private_ipv4_address>
+
+### **Success!**
+We can now connect to the Application Tier’s EC2 Instance from your Bastion Host.
